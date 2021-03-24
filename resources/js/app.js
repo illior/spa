@@ -8,19 +8,17 @@ require('./bootstrap');
 
 window.Vue = require('vue').default;
 
-/**
- * The following block of code may be used to automatically register your
- * Vue components. It will recursively scan this directory for the Vue
- * components and automatically register them with their "basename".
- *
- * Eg. ./components/ExampleComponent.vue -> <example-component></example-component>
- */
+import VueRouter from 'vue-router';
+import routes from './routes';
+import Vuex from 'vuex';
+import store from './store';
+//Vue.component('example-component', require('./components/ExampleComponent.vue').default);
 
-// const files = require.context('./', true, /\.vue$/i)
-// files.keys().map(key => Vue.component(key.split('/').pop().split('.')[0], files(key).default))
+Vue.use(VueRouter);
+const VueRoutes = new VueRouter(routes);
 
-Vue.component('example-component', require('./components/ExampleComponent.vue').default);
-
+Vue.use(Vuex);
+const VueStore = new Vuex.Store(store);
 /**
  * Next, we will create a fresh Vue application instance and attach it to
  * the page. Then, you may begin adding components to this application
@@ -29,4 +27,6 @@ Vue.component('example-component', require('./components/ExampleComponent.vue').
 
 const app = new Vue({
 	el: '#app',
+	router: VueRoutes,
+	store: VueStore,
 });
