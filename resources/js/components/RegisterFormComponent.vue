@@ -1,0 +1,46 @@
+<template>
+	<div class="register-form">
+		<input type="text" placeholder="Name" v-model="form.name">
+		<input type="email" placeholder="Email" v-model="form.email">
+		<input type="password" placeholder="Password" v-model="form.password">
+		<input type="password" placeholder="Password Confirmation" v-model="form.password_confirmation">
+		<p v-if="error" class="register-error">
+			{{ message }}
+		</p>
+		<button type="submit" @click.prevent="login">Sign in</button>
+	</div>
+</template>
+<script>
+	export default{
+		mounted () {
+			console.log('RegisterForm component mounted');
+		},
+		data: function () {
+			return {
+				form: {
+					name: '',
+					email: '',
+					password: '',
+					password_confirmation: ''
+				},
+				error: false,
+				message: 'Hello'
+			}
+		},
+		methods: {
+			login: function () {
+				axios.post('/api/register', this.form).then(response => {
+					if (response.data.status == true) {
+						this.$store.dispatch('loginUser', response.data.user);
+						this.$router.push({ name: 'profile', params: { link: response.data.user.link } })
+					} else {
+						this.error = true;
+						this.message = response.data.message;
+					}
+				}).catch(error => {
+					console.log(error);
+				})
+			}
+		}
+	}
+</script>

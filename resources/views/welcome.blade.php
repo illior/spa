@@ -5,13 +5,19 @@
 	<meta name="viewport" content="width=device-width, initial-scale=1">
 	<!-- CSRF Token -->
 	<meta name="csrf-token" content="{{ csrf_token() }}">
-	<title>{{ config('APP_NAME') }}</title>
+	<title>{{ config('app.name') }}</title>
 	<!-- Styles -->
 	<link href="{{ asset('css/app.css') }}" rel="stylesheet">
 </head>
 <body>
 	<div id="app">
-		<router-view></router-view>
+		<!--<header-component v-if="$route.name != 'NotFound'"></header-component>-->
+		<router-view name="header"></router-view>
+		<div id="user-page" class="container">
+			<!--<left-menu></left-menu>-->
+			<router-view name="sidebar"></router-view>
+			<router-view></router-view>
+		</div>
 	</div>
 <!-- Scripts -->
 <script src="{{ asset('js/app.js') }}" defer></script>

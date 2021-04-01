@@ -12,13 +12,41 @@ import VueRouter from 'vue-router';
 import routes from './routes';
 import Vuex from 'vuex';
 import store from './store';
-//Vue.component('example-component', require('./components/ExampleComponent.vue').default);
+
+Vue.component('header-component', require('./components/HeaderComponent.vue').default);
+Vue.component('login-header', require('./components/LoginHeaderComponent.vue').default);
+Vue.component('user-header', require('./components/UserHeaderComponent.vue').default);
+Vue.component('login-form', require('./components/LoginFormComponent.vue').default);
+Vue.component('register-form', require('./components/RegisterFormComponent.vue').default);
+Vue.component('left-menu', require('./components/LeftMenuComponent.vue').default);
 
 Vue.use(VueRouter);
 const VueRoutes = new VueRouter(routes);
 
 Vue.use(Vuex);
 const VueStore = new Vuex.Store(store);
+
+import middlewarePipeline from './middleware/middlewarePipeline'
+
+VueRoutes.beforeEach((to, from, next) => {
+	if (!to.meta.middleware) {
+		return next();
+	}
+	const middleware = to.meta.middleware;
+
+	const context = {
+		to,
+		from,
+		next,
+		store: VueStore
+	}
+
+	return middleware[0]({
+		...context,
+		nextMiddleware: middlewarePipeline(context, middleware, 1)
+	})
+});
+
 /**
  * Next, we will create a fresh Vue application instance and attach it to
  * the page. Then, you may begin adding components to this application

@@ -7,6 +7,7 @@ use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Foundation\Auth\User as Authenticatable;
 use Illuminate\Notifications\Notifiable;
 use Laravel\Sanctum\HasApiTokens;
+use Illuminate\Support\Str;
 
 class User extends Authenticatable
 {
@@ -21,6 +22,7 @@ class User extends Authenticatable
 		'name',
 		'email',
 		'password',
+		'link'
 	];
 
 	/**
@@ -29,16 +31,16 @@ class User extends Authenticatable
 	 * @var array
 	 */
 	protected $hidden = [
-		'password',
-		'remember_token',
+		'password'
 	];
 
-	/**
-	 * The attributes that should be cast to native types.
-	 *
-	 * @var array
-	 */
-	protected $casts = [
-		'email_verified_at' => 'datetime',
-	];
+	public static function register($arr) {
+		$arr['link'] = Str::random(10);;
+		$user = self::create($arr);
+
+		$user->link = 'id'.$user->id;
+		$user->save();
+
+		return $user;
+	}
 }
