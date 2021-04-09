@@ -11,10 +11,8 @@
 </head>
 <body>
 	<div id="app">
-		<!--<header-component v-if="$route.name != 'NotFound'"></header-component>-->
 		<router-view name="header"></router-view>
 		<div id="user-page" class="container">
-			<!--<left-menu></left-menu>-->
 			<router-view name="sidebar"></router-view>
 			<router-view></router-view>
 		</div>

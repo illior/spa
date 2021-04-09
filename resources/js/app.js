@@ -13,12 +13,12 @@ import routes from './routes';
 import Vuex from 'vuex';
 import store from './store';
 
-Vue.component('header-component', require('./components/HeaderComponent.vue').default);
 Vue.component('login-header', require('./components/LoginHeaderComponent.vue').default);
 Vue.component('user-header', require('./components/UserHeaderComponent.vue').default);
 Vue.component('login-form', require('./components/LoginFormComponent.vue').default);
 Vue.component('register-form', require('./components/RegisterFormComponent.vue').default);
-Vue.component('left-menu', require('./components/LeftMenuComponent.vue').default);
+Vue.component('settings-from', require('./components/SettingsFormComponent.vue').default);
+Vue.component('profile-img', require('./components/ProfileImgComponent.vue').default);
 
 Vue.use(VueRouter);
 const VueRoutes = new VueRouter(routes);
@@ -46,6 +46,15 @@ VueRoutes.beforeEach((to, from, next) => {
 		nextMiddleware: middlewarePipeline(context, middleware, 1)
 	})
 });
+
+Vue.directive('src', {
+	bind: function (el, binding) {
+		el.src = 'http://app.test/storage/' + binding.value;
+	},
+	update: function (el, binding) {
+		el.src = 'http://app.test/storage/' + binding.value;
+	}
+})
 
 /**
  * Next, we will create a fresh Vue application instance and attach it to

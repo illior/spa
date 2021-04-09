@@ -1,20 +1,15 @@
 <template>
-	<div id="settings-page">
-		<div class="settings-header">
-			Settings
-		</div>
-		<div class="settings-form">
-			<settings-from></settings-from>
-		</div>
+	<div id="friends-page">
+		Friends
 	</div>
 </template>
 <script>
 	export default{
 		mounted() {
-			console.log('Settings component mounted');
+			console.log('Friends component mounted');
 		},
 		props: [
-			'link'
+			'id'
 		],
 		computed: {
 			userProfile: function () {

@@ -15,7 +15,10 @@ use Illuminate\Support\Facades\Route;
 */
 
 Route::group(['middleware' => 'auth:sanctum', 'namespace' => 'api'], function () {
-	Route::get('/user', 'UserController@getUser');
+	//Route::get('/user?id={id}', 'UserController@getUserById');
+	//Route::get('/user?link={link}', 'UserController@getUserByLink');
+
+	Route::get('/user', 'UserController@getAction');
 
 	Route::get('/athenticated', 'UserController@athenticated');
 });

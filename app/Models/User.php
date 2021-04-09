@@ -22,7 +22,8 @@ class User extends Authenticatable
 		'name',
 		'email',
 		'password',
-		'link'
+		'link',
+		'photo'
 	];
 
 	/**
@@ -35,7 +36,8 @@ class User extends Authenticatable
 	];
 
 	public static function register($arr) {
-		$arr['link'] = Str::random(10);;
+		$arr['link'] = Str::random(10);
+		$arr['photo'] = 'no.png';
 		$user = self::create($arr);
 
 		$user->link = 'id'.$user->id;

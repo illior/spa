@@ -4,6 +4,9 @@ import SignUp from './components/views/SignUp.vue';
 import NotFound from './components/views/NotFound.vue';
 import Profile from './components/views/Profile.vue';
 import Settings from './components/views/Settings.vue';
+import Feed from './components/views/Feed.vue';
+import Messages from './components/views/Messages.vue';
+import Friends from './components/views/Friends.vue';
 
 // Helpers
 import Header from './components/HeaderComponent.vue';
@@ -52,7 +55,9 @@ export default{
 				header: Header,
 				sidebar: LeftMenu
 			},
-			props: true,
+			props: {
+				default: true
+			},
 			meta: {
 				middleware: [
 					auth
@@ -74,8 +79,53 @@ export default{
 			}
 		},
 		{
+			path: '/feed',
+			name: 'feed',
+			components: {
+				default: Feed,
+				header: Header,
+				sidebar: LeftMenu
+			},
+			meta: {
+				middleware: [
+					auth
+				]
+			}
+		},
+		{
+			path: '/im',
+			name: 'messages',
+			components: {
+				default: Messages,
+				header: Header,
+				sidebar: LeftMenu
+			},
+			meta: {
+				middleware: [
+					auth
+				]
+			}
+		},
+		{
+			path: '/friends/:id',
+			name: 'friends',
+			components: {
+				default: Friends,
+				header: Header,
+				sidebar: LeftMenu
+			},
+			props: {
+				default: true
+			},
+			meta: {
+				middleware: [
+					auth
+				]
+			}
+		},
+		{
 			path: '*',
-			name: 'NotFound',
+			name: 'notFound',
 			components: {
 				default: NotFound,
 				header: null,

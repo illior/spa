@@ -2,13 +2,16 @@
 	<div id="left-menu">
 		<ul>
 			<li>
-				<router-link :to="{ name: 'profile', params: { link: user.link}}">Profile</router-link>
+				<router-link :to="{ name: 'profile', params: { link: user.link }}">Profile</router-link>
 			</li>
 			<li>
-				<router-link :to="{ name: 'settings' }">Settings</router-link>
+				<router-link :to="{ name: 'feed' }">Feed</router-link>
 			</li>
 			<li>
-				<router-link :to="{ name: 'profile', params: { link: user.link}}">Profile</router-link>
+				<router-link :to="{ name: 'messages' }">Messages</router-link>
+			</li>
+			<li>
+				<router-link :to="{ name: 'friends', params: { id: user.id }}">Friends</router-link>
 			</li>
 		</ul>
 	</div>

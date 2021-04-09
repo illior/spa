@@ -7,7 +7,7 @@
 		<p v-if="error" class="register-error">
 			{{ message }}
 		</p>
-		<button type="submit" @click.prevent="login">Sign in</button>
+		<button type="submit" @click.prevent="login" :disabled="formSend">Sign in</button>
 	</div>
 </template>
 <script>
@@ -24,16 +24,19 @@
 					password_confirmation: ''
 				},
 				error: false,
-				message: 'Hello'
+				message: '',
+				formSend: false
 			}
 		},
 		methods: {
 			login: function () {
+				this.formSend = true;
 				axios.post('/api/register', this.form).then(response => {
 					if (response.data.status == true) {
 						this.$store.dispatch('loginUser', response.data.user);
 						this.$router.push({ name: 'profile', params: { link: response.data.user.link } })
 					} else {
+						this.formSend = false;
 						this.error = true;
 						this.message = response.data.message;
 					}

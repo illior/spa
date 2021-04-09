@@ -42,6 +42,9 @@ export default{
 			context.commit('setUser', payload);
 			context.commit('setAuthTrue');
 		},
+		updateUser: (context, payload) => {
+			context.commit('setUser', payload);
+		},
 		logoutUser: context => {
 			context.commit('clearUser');
 			context.commit('setAuthFalse');
