@@ -33,7 +33,7 @@
 				this.formSend = true;
 				axios.post('/api/register', this.form).then(response => {
 					if (response.data.status == true) {
-						this.$store.dispatch('loginUser', response.data.user);
+						this.$store.dispatch('loginUser', response.data);
 						this.$router.push({ name: 'profile', params: { link: response.data.user.link } })
 					} else {
 						this.formSend = false;

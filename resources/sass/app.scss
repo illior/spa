@@ -116,6 +116,7 @@ body {
 
 				#user-notification {
 					position: absolute;
+					width: 30%;
 					top: 100%;
 					margin-left: 8.5%;
 					border: 1px solid $border-bg;
@@ -136,7 +137,13 @@ body {
 
 					.notification-list {
 						display: flex;
-						flex-direction: column;
+						flex-direction: column-reverse;
+
+						.clear-notice {
+							margin: 30px auto;
+							font-size: 16px;
+							font-weight: 700;
+						}
 
 						.notice {
 							padding: 15px;
@@ -471,6 +478,7 @@ body {
 				padding: 15px;
 				font-size: 16px;
 				border-bottom: 1px solid $border-bg;
+				font-weight: 600;
 			}
 
 			.info-body {
@@ -480,8 +488,17 @@ body {
 
 			.info-footer {
 				font-size: 16px;
-				padding: 15px;
+				padding: 0 15px;
 				border-top: 1px solid $border-bg;
+				display: flex;
+				flex-direction: row;
+				justify-content: space-around;
+
+				.footer-column {
+					margin: 15px 0;
+					flex: 0 0 20%;
+					font-size: 16px;
+				}
 			}
 		}
 	}

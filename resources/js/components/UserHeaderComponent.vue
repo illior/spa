@@ -1,28 +1,9 @@
 <template>
 	<div class="user-header">
 		<div id="header-notification" v-bind:class="{active: notice}" @click.prevent="showNotice">
-			Notifications
+			Notifications <span v-if="this.$store.getters.unread">+1</span>
 		</div>
-		<div id="user-notification" v-if="notice" v-click-outside-notice="closeNotice">
-			<div class="notification-header">
-				Recently
-			</div>
-			<div class="notification-list">
-				<div class="notice">
-					<div class="notice-pic">
-						<profile-img :source="user.photo"></profile-img>
-					</div>
-					<div class="notice-content">
-						<div class="notice-header">
-							SomeBody
-						</div>
-						<div class="notice-text">
-							Do something
-						</div>
-					</div>
-				</div>
-			</div>
-		</div>
+		<user-notice v-if="notice" v-click-outside-notice="closeNotice"></user-notice>
 		<div id="header-menu" v-bind:class="{active: menu}" @click.prevent="showMenu">
 			{{ user.name }} <profile-img :source="user.photo"></profile-img>  <i class="arrow down"></i>
 		</div>
@@ -45,6 +26,26 @@
 	export default{
 		mounted() {
 			console.log('UserHeader component mounted');
+			Echo.private(`notice.${this.user.id}`)
+				.listen('.notice.created', e => {
+					let notice = e.notice;
+					notice.name = e.user.name;
+					notice.photo = e.user.photo;
+					this.$store.dispatch('pushNotice', notice);
+					this.$store.dispatch('pushFollower', notice.user.id);
+					if (this.notice) {
+						this.$store.dispatch('readAllNotices');
+					}
+				});
+
+			axios.get('/api/user?action=getNotices').then(response => {
+				this.$store.dispatch('loadNotices', response.data.notices)
+			}).catch(error => {
+
+			});
+		},
+		beforeDestroy() {
+			Echo.leaveChannel(`notice.${this.user.id}`);
 		},
 		data: function () {
 			return {

@@ -45,4 +45,43 @@ class User extends Authenticatable
 
 		return $user;
 	}
+
+	public function toNotices() {
+		return $this->hasMany('App\Models\Notice', 'to_user_id');
+	}
+
+	public function fromNotices() {
+		return $this->hasMany('App\Models\Notice', 'from_user_id');
+	}
+
+	public function getFollowers() {
+		return $this->belongsToMany(self::class, 'relationships', 'following_id', 'follower_id');
+	}
+
+	public function getFollowings() {
+		return $this->belongsToMany(self::class, 'relationships', 'follower_id', 'following_id');
+	}
+
+	public function follow($id) {
+		$relationship = Relationship::where(['follower_id' => $this->id, 'following_id' => $id])->first();
+
+		if ($relationship != null) {
+			return false;
+		}
+
+		Relationship::create([
+			'follower_id' => $this->id,
+			'following_id' => $id
+		]);
+
+		$this->followings++;
+		$this->save();
+
+		$user = self::find($id);
+		$user->followers++;
+		$user->save();
+
+
+		return true;
+	}
 }

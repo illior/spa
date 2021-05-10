@@ -5,8 +5,11 @@ namespace App\Http\Controllers\api;
 use App\Http\Controllers\Controller;
 use Illuminate\Http\Request;
 use App\Models\User;
+use App\Models\Notice;
+use App\Models\Relationship;
 use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\Validator;
+use App\Events\SendNotice;
 
 class UserController extends Controller
 {
@@ -14,7 +17,10 @@ class UserController extends Controller
 		'getById' => 'getUserById',
 		'getByLink' => 'getUserByLink',
 		'update' => 'updateName',
-		'follow' => 'followUser'
+		'follow' => 'followUser',
+		'unfollow' => 'unfollowUser',
+		'getNotices' => 'notices',
+		'readAllNotices' => 'readNotices'
 	];
 
 	public function getAction (Request $request) {
@@ -80,10 +86,81 @@ class UserController extends Controller
 	}
 
 	public function followUser(Request $request) {
-		
+		$validator = Validator::make($request->all(), [
+			'id' => 'required|integer',
+		]);
+
+		if($validator->fails()){
+			$error = $validator->errors()->first();
+
+			return response(['status' => false, 'message' => $error], '400');
+		}
+
+		$user = Auth::user();
+
+		if($user->id == $request->id) {
+			return response(['status' => false, 'message' => 'Wrong id'], '400');
+		}
+
+		if (!$user->follow($request->id)) {
+			return response(['status' => false]);
+		}
+
+		$notice = Notice::create([
+			'from_user_id' => $user->id,
+			'to_user_id' => $request->id,
+			'message' => 'follow you'
+		]);
+
+		broadcast(new SendNotice($notice, $user))->toOthers();
+
+		return response(['status' => true]);
+	}
+
+	public function unfollowUser(Request $request) {
+		$user = Auth::user();
+		$followingUser = User::find($request->id);
+
+		$user->decrement('followings');
+
+		Relationship::where([
+			'follower_id' => $user->id,
+			'following_id' => $followingUser->id
+		])->delete();
+
+		$followingUser->decrement('followers');
+
+		return response(['status' => true]);
+	}
+
+	public function notices(Request $request) {
+		$notices = Auth::user()->toNotices()->limit(20)->get()->toArray();// dd($notices);
+
+		foreach ($notices as $key => $notice) {
+			$user = User::find($notice['from_user_id']);
+			$notices[$key]['name'] = $user->name;
+			$notices[$key]['photo'] = $user->photo;
+		}
+
+		return response(['status' => true, 'notices' => $notices], 200);
+	}
+
+	public function readNotices(Request $request) {
+		Notice::where('to_user_id', Auth::user()->id)->update(['visited' => true]);
+
+		return response(['status' => true], 200);
 	}
 
 	public function athenticated(Request $request) {
-		return response(['status' => true, 'user' => Auth::user()]);
+		$user = Auth::user()->toArray();
+
+		$followers = Relationship::where('following_id', $user['id'])->pluck('follower_id');
+
+		$followings = Relationship::where('follower_id', $user['id'])->pluck('following_id');
+
+		return response(['status' => true, 'user' => $user, 'relationship' => [
+			'followers' => $followers,
+			'followings' => $followings
+		]]);
 	}
 }

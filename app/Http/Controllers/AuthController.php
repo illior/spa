@@ -6,6 +6,7 @@ use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Validator;
 use Illuminate\Support\Facades\Auth;
 use App\Models\User;
+use App\Models\Relationship;
 
 class AuthController extends Controller
 {
@@ -29,10 +30,18 @@ class AuthController extends Controller
 
 		$user->createToken('API Token');
 
+		$followers = Relationship::where('following_id', $user['id'])->pluck('follower_id');
+
+		$followings = Relationship::where('follower_id', $user['id'])->pluck('following_id');
+
 		return response([
 			'status' => true,
 			'message' => '',
-			'user' => $user->toArray()
+			'user' => $user->toArray(),
+			'relationship' => [
+				'followers' => $followers,
+				'followings' => $followings
+			]
 		],
 		'200');
 	}
@@ -63,7 +72,11 @@ class AuthController extends Controller
 		return response([
 			'status' => true,
 			'message' => '',
-			'user' => $user->toArray()
+			'user' => $user->toArray(),
+			'relationship' => [
+				'followers' => [],
+				'followings' => []
+			]
 		],
 		'200');
 	}

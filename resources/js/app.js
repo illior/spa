@@ -19,6 +19,7 @@ Vue.component('login-form', require('./components/LoginFormComponent.vue').defau
 Vue.component('register-form', require('./components/RegisterFormComponent.vue').default);
 Vue.component('settings-from', require('./components/SettingsFormComponent.vue').default);
 Vue.component('profile-img', require('./components/ProfileImgComponent.vue').default);
+Vue.component('user-notice', require('./components/NotificationsComponent.vue').default);
 
 Vue.use(VueRouter);
 const VueRoutes = new VueRouter(routes);

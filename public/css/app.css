@@ -235,6 +235,7 @@ body {
 
 #header-component .header-row .header-content .user-header #user-notification {
   position: absolute;
+  width: 30%;
   top: 100%;
   margin-left: 8.5%;
   border: 1px solid #DFE9F0;
@@ -256,7 +257,13 @@ body {
 
 #header-component .header-row .header-content .user-header #user-notification .notification-list {
   display: flex;
-  flex-direction: column;
+  flex-direction: column-reverse;
+}
+
+#header-component .header-row .header-content .user-header #user-notification .notification-list .clear-notice {
+  margin: 30px auto;
+  font-size: 16px;
+  font-weight: 700;
 }
 
 #header-component .header-row .header-content .user-header #user-notification .notification-list .notice {
@@ -590,6 +597,7 @@ body {
   padding: 15px;
   font-size: 16px;
   border-bottom: 1px solid #DFE9F0;
+  font-weight: 600;
 }
 
 #profile-page .profile-column .profile-info .info-body {
@@ -599,8 +607,17 @@ body {
 
 #profile-page .profile-column .profile-info .info-footer {
   font-size: 16px;
-  padding: 15px;
+  padding: 0 15px;
   border-top: 1px solid #DFE9F0;
+  display: flex;
+  flex-direction: row;
+  justify-content: space-around;
+}
+
+#profile-page .profile-column .profile-info .info-footer .footer-column {
+  margin: 15px 0;
+  flex: 0 0 20%;
+  font-size: 16px;
 }
 
 #settings-page {

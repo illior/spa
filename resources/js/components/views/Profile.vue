@@ -7,8 +7,11 @@
 				</div>
 			</div>
 			<div class="profile-follow" v-if="user.id != userProfile.id">
-				<button @click.prevent="follow">
+				<button @click.prevent="follow" v-if="!$store.getters.followings.includes(userProfile.id)">
 					Add to Friends
+				</button>
+				<button @click.prevent="unfollow" v-if="$store.getters.followings.includes(userProfile.id)">
+					Remove from friends
 				</button>
 			</div>
 		</div>
@@ -21,7 +24,12 @@
 					Information
 				</div>
 				<div class="info-footer">
-					Not yet
+					<div class="footer-column">
+						Followers: {{ userProfile.followers }}
+					</div>
+					<div class="footer-column">
+						Followings: {{ userProfile.followings }}
+					</div>
 				</div>
 			</div>
 		</div>
@@ -68,7 +76,14 @@
 			},
 			follow: function () {
 				axios.get(`/api/user?action=follow&id=${this.userProfile.id}`).then(response => {
+					this.$store.dispatch('pushFollowing', this.userProfile.id);
+				}).catch(error => {
 
+				});
+			},
+			unfollow: function () {
+				axios.get(`/api/user?action=unfollow&id=${this.userProfile.id}`).then(response => {
+					this.$store.dispatch('removeFollowing', this.userProfile.id);
 				}).catch(error => {
 
 				});
