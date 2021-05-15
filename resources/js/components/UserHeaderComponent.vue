@@ -32,7 +32,7 @@
 					notice.name = e.user.name;
 					notice.photo = e.user.photo;
 					this.$store.dispatch('pushNotice', notice);
-					this.$store.dispatch('pushFollower', notice.user.id);
+					this.$store.dispatch('pushFollower', e.user.id);
 					if (this.notice) {
 						this.$store.dispatch('readAllNotices');
 					}
