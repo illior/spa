@@ -11,7 +11,10 @@
 				<router-link :to="{ name: 'messages' }">Messages</router-link>
 			</li>
 			<li>
-				<router-link :to="{ name: 'friends', params: { id: user.id }}">Friends</router-link>
+				<router-link :to="{ name: 'followers', params: { id: user.id }}">Followers</router-link>
+			</li>
+			<li>
+				<router-link :to="{ name: 'followings', params: { id: user.id }}">Followings</router-link>
 			</li>
 		</ul>
 	</div>

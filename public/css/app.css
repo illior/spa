@@ -684,12 +684,108 @@ body {
   border-radius: 3px;
 }
 
-#friends-page {
+#followers-page {
   flex: 0 0 79%;
   background: #FFFFFF;
   overflow: hidden;
-  padding: 15px;
   border-radius: 3px;
+  display: flex;
+  flex-direction: column;
+}
+
+#followers-page .followers-header {
+  padding: 15px;
+  font-size: 18px;
+  font-weight: 700;
+  border-bottom: 1px solid #DFE9F0;
+}
+
+#followers-page .followers-body {
+  display: flex;
+  flex-direction: column;
+}
+
+#followers-page .followers-body .follower {
+  padding: 20px;
+  display: flex;
+  flex-direction: row;
+  border-bottom: 1px solid #DFE9F0;
+  height: 120px;
+}
+
+#followers-page .followers-body .follower:last-child {
+  border-bottom: none;
+}
+
+#followers-page .followers-body .follower .follower-img {
+  flex: 1 1 auto;
+  width: 80px;
+  height: 80px;
+  border-radius: 50%;
+  overflow: hidden;
+}
+
+#followers-page .followers-body .follower .follower-img img {
+  width: 100%;
+  height: 100%;
+  -o-object-fit: cover;
+     object-fit: cover;
+}
+
+#followers-page .followers-body .follower .follower-title {
+  flex: 0 1 100%;
+  display: flex;
+  flex-direction: row;
+  justify-content: space-between;
+}
+
+#followers-page .followers-body .follower .follower-title a {
+  color: #000000;
+  font-size: 17px;
+  margin-bottom: 10px;
+  font-weight: 700;
+}
+
+#followers-page .followers-body .follower .follower-title .follower-menu {
+  width: 25px;
+  height: 11px;
+  padding: 3px;
+  position: relative;
+}
+
+#followers-page .followers-body .follower .follower-title .follower-menu:hover {
+  cursor: pointer;
+}
+
+#followers-page .followers-body .follower .follower-title .follower-menu .menu {
+  width: 5px;
+  height: 5px;
+  border-radius: 50%;
+  background-color: #000000;
+  position: relative;
+  left: 7px;
+}
+
+#followers-page .followers-body .follower .follower-title .follower-menu .menu:before {
+  display: block;
+  position: absolute;
+  left: -7px;
+  content: "";
+  width: 5px;
+  height: 5px;
+  border-radius: 50%;
+  background-color: #000000;
+}
+
+#followers-page .followers-body .follower .follower-title .follower-menu .menu:after {
+  display: block;
+  position: absolute;
+  right: -7px;
+  content: "";
+  width: 5px;
+  height: 5px;
+  border-radius: 50%;
+  background-color: #000000;
 }
 
 

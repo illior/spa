@@ -6,7 +6,8 @@ import Profile from './components/views/Profile.vue';
 import Settings from './components/views/Settings.vue';
 import Feed from './components/views/Feed.vue';
 import Messages from './components/views/Messages.vue';
-import Friends from './components/views/Friends.vue';
+import Followers from './components/views/Followers.vue';
+import Followings from './components/views/Followings.vue'
 
 // Helpers
 import Header from './components/HeaderComponent.vue';
@@ -107,10 +108,27 @@ export default{
 			}
 		},
 		{
-			path: '/friends/:id',
-			name: 'friends',
+			path: '/followers/:id',
+			name: 'followers',
 			components: {
-				default: Friends,
+				default: Followers,
+				header: Header,
+				sidebar: LeftMenu
+			},
+			props: {
+				default: true
+			},
+			meta: {
+				middleware: [
+					auth
+				]
+			}
+		},
+		{
+			path: '/followings/:id',
+			name: 'followings',
+			components: {
+				default: Followings,
 				header: Header,
 				sidebar: LeftMenu
 			},

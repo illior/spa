@@ -20,7 +20,9 @@ class UserController extends Controller
 		'follow' => 'followUser',
 		'unfollow' => 'unfollowUser',
 		'getNotices' => 'notices',
-		'readAllNotices' => 'readNotices'
+		'readAllNotices' => 'readNotices',
+		'getFollowers' => 'getFollowers',
+		'getFollowings' => 'getFollowings'
 	];
 
 	public function getAction (Request $request) {
@@ -162,5 +164,37 @@ class UserController extends Controller
 			'followers' => $followers,
 			'followings' => $followings
 		]]);
+	}
+
+	public function getFollowers(Request $request) {
+		$validator = Validator::make($request->all(), [
+			'id' => 'required|integer',
+		]);
+
+		if($validator->fails()){
+			$error = $validator->errors()->first();
+
+			return response(['status' => false, 'message' => $error], '400');
+		}
+
+		$followers = User::find($request->id)->getFollowers()->get();
+
+		return response(['status' => true, 'followers' => $followers]);
+	}
+
+	public function getFollowings(Request $request) {
+		$validator = Validator::make($request->all(), [
+			'id' => 'required|integer',
+		]);
+
+		if($validator->fails()){
+			$error = $validator->errors()->first();
+
+			return response(['status' => false, 'message' => $error], '400');
+		}
+
+		$followings = User::find($request->id)->getFollowings()->get();
+
+		return response(['status' => true, 'followings' => $followings]);
 	}
 }
